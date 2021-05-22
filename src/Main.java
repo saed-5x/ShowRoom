@@ -1,215 +1,58 @@
-import java.math.BigDecimal;
-import java.sql.*;
 import java.util.Scanner;
 
 public class Main {
 
-
-
-
-
-
-
     public static void main(String [] args){
 
-        String jdbcURL ="jdbc:postgresql://127.0.0.1:5432/ShowRoom";
-        String username ="postgres";
-        String password ="1369";
-
-
+        table_auto_v table1 = new table_auto_v();
+        table_brands table2 = new table_brands();
+        table_clients table3 = new table_clients();
+        table_colors table4 = new table_colors();
+        table_employees table5 = new table_employees();
+        table_positions table6 = new table_positions();
+        table_sales table7 = new table_sales();
+        table_showrooms table8 = new table_showrooms();
+        table_type_vehicle table9 = new table_type_vehicle();
         Scanner scan = new Scanner(System.in);
         int call;
 
         do{
-
-
-            try {
-                Connection connection = DriverManager.getConnection(jdbcURL,username,password);
-                System.out.println("Connect ");
-
-                Statement _statement = connection.createStatement();
-                String query = "select  id_em, FName , LName , Phone , Email, Salary from Employees order by id_em ";
-
-                ResultSet rs = _statement.executeQuery(query);
-
-
-                while(rs.next()){
-                    System.out.println("|  "+rs.getString(1)+"  |  "+rs.getString(2)+"  |  "+rs.getString(3)+"  |  "+rs.getString(4)+"  |  "+rs.getString(5)+"  |  "+rs.getString(6)+"  |");
-                }
-
-                String query2 = "EXPLAIN ANALYSE  select  id_em, FName , LName , Phone , Email, Salary from Employees order by id_em ";
-
-                ResultSet rs2 = _statement.executeQuery(query2);
-
-                connection.close();
-
-            } catch (SQLException e) {
-                System.out.println("Error");
-                e.printStackTrace();
-            }
-
-            System.out.print("\n//==========( Menu )============//\n") ;
-            System.out.print("//  1)Press to update table Employees\n//  2)Press to add to table Employees \n//  3)Press to remove from table Employees\n//  4)Press to close\n") ;
-            System.out.print(  "//==============================//\n(@user)--> ");
+            System.out.print("\n//=================( Menu )================//\n") ;
+            System.out.print(   "//  1)Press to get in table auto_v         //\n" +
+                                "//  2)Press to get in table brands         //\n" +
+                                "//  3)Press to get in table clients        //\n" +
+                                "//  4)Press to get in table colors         //\n" +
+                                "//  5)Press to get in table Employees      //\n" +
+                                "//  6)Press to get in table positions      //\n" +
+                                "//  7)Press to get in table sales          //\n" +
+                                "//  8)Press to get in table showrooms      //\n" +
+                                "//  9)Press to get in table type vehicle   //\n" +
+                                "// 10)Press to close                       //\n") ;
+            System.out.print(   "//=========================================//\n(@user)--> ");
             call =scan.nextInt();
 
             if ( call ==1){
-
-                try {
-                    Connection connection = DriverManager.getConnection(jdbcURL,username,password);
-                    System.out.println("Connect ");
-
-
-                    String query = "update Employees   set FName = ? , LName = ?  ,  Phone = ?  ,  Email = ? ,  Salary = ?  where id_em = ? ";
-                    PreparedStatement _statement = connection.prepareStatement(query);
-
-
-                    String _string1;
-                    String _string2;
-                    String _string3;
-                    String _string4;
-                    BigDecimal _string5;
-                    int _int1;
-
-                    System.out.print("Enter FName (@user)--> ");
-                    _string1 =scan.next();
-                    _statement.setString(1,_string1);
-                    System.out.print("Enter LName (@user)--> ");
-                    _string2 =scan.next();
-                    _statement.setString(2,_string2);
-                    System.out.print("Enter Phone (@user)--> ");
-                    _string3 =scan.next();
-                    _statement.setString(3,_string3);
-                    System.out.print("Enter Email (@user)--> ");
-                    _string4 =scan.next();
-                    _statement.setString(4,_string4);
-                    System.out.print("Enter Salary (@user)--> ");
-                    _string5 =scan.nextBigDecimal();
-                    _statement.setBigDecimal(5,_string5);
-                    System.out.print("Enter id_em (@user)--> ");
-                    _int1 =scan.nextInt();
-                    _statement.setInt(6,_int1);
-
-
-                    int rowAffected = _statement.executeUpdate();
-                    System.out.println(String.format("Row affected %d", rowAffected));
-
-
-                    connection.close();
-
-                } catch (SQLException e) {
-                    System.out.println("Error");
-                    e.printStackTrace();
-                }
-
-
+                table1.run();
             }else if (call == 2){
-
-                try {
-                    Connection connection = DriverManager.getConnection(jdbcURL,username,password);
-                    System.out.println("Connect ");
-
-
-                    String query = "INSERT INTO EMPLOYEES (ID_EM,FK_ID_SR,FK_ID_POSITION,FNAME,LNAME,PHONE,EMAIL,SALARY)VALUES(?,?,?,?,?,?,?,?)" ;
-
-                    PreparedStatement _statement = connection.prepareStatement(query);
-
-
-
-                    String _string1;
-                    String _string2;
-                    String _string3;
-                    String _string4;
-                    BigDecimal _string5;
-                    int _int1;
-                    System.out.print("Enter id_em (@user)--> ");
-                    _int1 =scan.nextInt();
-                    _statement.setInt(1,_int1);
-                    int _int2;
-                    System.out.print("Enter fk_id_sr (@user)--> ");
-                    _int2 =scan.nextInt();
-                    _statement.setInt(2,_int2);
-                    int _int3;
-                    System.out.print("Enter fk_id_position (@user)--> ");
-                    _int3 =scan.nextInt();
-                    _statement.setInt(3,_int3);
-
-                    System.out.print("Enter FName (@user)--> ");
-                    _string1 =scan.next();
-                    _statement.setString(4,_string1);
-                    System.out.print("Enter LName (@user)--> ");
-                    _string2 =scan.next();
-                    _statement.setString(5,_string2);
-                    System.out.print("Enter Phone (@user)--> ");
-                    _string3 =scan.next();
-                    _statement.setString(6,_string3);
-                    System.out.print("Enter Email (@user)--> ");
-                    _string4 =scan.next();
-                    _statement.setString(7,_string4);
-                    System.out.print("Enter Salary (@user)--> ");
-                    _string5 =scan.nextBigDecimal();
-                    _statement.setBigDecimal(8,_string5);
-
-
-                    int rowAffected = _statement.executeUpdate();
-                    System.out.println(String.format("Row affected %d", rowAffected));
-
-
-
-
-                    connection.close();
-
-                } catch (SQLException e) {
-                    System.out.println("Error");
-                    e.printStackTrace();
-                }
-
-
+                table2.run();
             }else if(call == 3){
-
-                try {
-                    Connection connection = DriverManager.getConnection(jdbcURL,username,password);
-                    System.out.println("Connect ");
-
-
-                    String query = " delete from  EMPLOYEES where id_em = ?" ;
-
-                    PreparedStatement _statement = connection.prepareStatement(query);
-
-
-
-
-                    int _int1;
-                    System.out.print("Enter id_em (@user)--> ");
-                    _int1 =scan.nextInt();
-                    _statement.setInt(1,_int1);
-
-                    int rowAffected = _statement.executeUpdate();
-                    System.out.println(String.format("Row affected %d", rowAffected));
-
-
-
-
-                    connection.close();
-
-                } catch (SQLException e) {
-                    System.out.println("Error");
-                    e.printStackTrace();
-                }
-
-
-
+                table3.run();
+            }else if(call == 4){
+                table4.run();
+            }else if(call == 5){
+                table5.run();
+            }else if(call == 6){
+                table6.run();
+            }else if(call == 7){
+                table7.run();
+            }else if(call == 8){
+                table8.run();
+            }else if(call == 9){
+                table9.run();
             }
-            else if(call == 4){System.exit(1);}
+            else if(call == 10){System.exit(1);}
             else{System.out.print("(@user)-->\n"); }
 
-        }while (call !=4);
-
-
-
-
-
-
-
+        }while (call != 10);
     }
 }
